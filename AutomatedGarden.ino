@@ -16,31 +16,37 @@ void setup() {
 }
 void loop() {
   tempInput = analogRead(tempPin);
-  humidityValue = analogRead(humidityPin); 
-  lightInput = analogRead(lightPin); 
- 
-  temp = (double)tempInput / 1024;
-  temp = temp * 5;
-  temp = temp - 0.5;
-  temp = temp * 100;
+  float humidityValue = analogRead(humidityPin); 
+  float lightInput = analogRead(lightPin); 
+  
+ //converting that reading to voltage
+ double voltage = tempInput * 5.0;
+ voltage /= 1024; 
+
+ float temperatureC = (voltage - 0.5) * 100 ;
+ /*
+ converting from 10 mv per degree with 500 mV offset
+ to degrees ((voltage - 500mV) times 100)]
+ */
 
   humidityValue = humidityValue - 1023;
   humidityValue = abs(humidityValue);
 
   lightInput = analogRead(lightPin);
-  //Serial.print("Current Light Intensity: ");
-  //Serial.println(lightInput);
- 
-  //Serial.print("Current Temperature: ");
-  //Serial.println(temp);
 
-  //Serial.print("Current Humidity : ");
-  Serial.println(humidityValue);
-
-  if(humidityValue < 30) {
+  if(humidityValue < 20) {
      digitalWrite(motorPin, HIGH); 
   }
   else {
      digitalWrite(motorPin, LOW);
   }
+
+  Serial.print(temperatureC);
+  Serial.print(" ");
+  Serial.print(lightInput);
+  Serial.print(" ");
+  Serial.print(humidityValue);
+  
+  delay(10000);
+  
 }
