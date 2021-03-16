@@ -77,12 +77,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="CSS/register.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/login.css"/>
 </head>
 <body>
+    <p>Login</p>
     <div class="wrapper">
-        <h2>Login</h2>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
@@ -95,8 +95,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <span class="help-block"><?php echo $password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="button" value="Login">
-                <input type="reset" class="button-second" value="Reset">
+                <input type="submit" class="button-submit" value="Login">
+                <br>
+                <input type="reset" class="button-reset" value="Reset">
                 <a href="register.php" class="button-login">Register</a>
             </div>
             

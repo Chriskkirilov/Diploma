@@ -5,21 +5,29 @@ session_start();
 
 $user_id = $_SESSION["id"];
 
-#$sql = "SELECT COUNT(users_gardens.garden_id) WHERE users_gardens.user_id = '$user_id'");
-$garden_id = file_get_contents("config.txt"); 
-$sqlInsert = mysqli_query($link, "INSERT INTO garden.users_gardens (user_id, garden_id) VALUES ('$user_id', '$garden_id')");
-
 $result = mysqli_query($link,"SELECT * FROM readings INNER JOIN users_gardens ON readings.garden_id = users_gardens.garden_id AND users_gardens.user_id = '$user_id'");
 
-$Select = mysqli_query($link, "SELECT garden_id FROM users_gardens WHERE user_id = '$user_id'");
-	echo "num of gardens: " .(mysqli_num_rows($Select));
-$gardenList = mysqli_fetch_array($Select);
-foreach($gardenList as $garden) {
-	$resultTable = mysqli_query($link, "SELECT * FROM readings WHERE garden_id = '$garden'");
-		echo "<table>";
+
+$last_record = mysqli_query($link, "SELECT * FROM readings INNER JOIN users_gardens ON readings.garden_id = users_gardens.garden_id WHERE user_id = '$user_id' ORDER BY ts DESC LIMIT 1 ");
+$row = mysqli_fetch_array($last_record);
+
+$index_garden_id = $row['garden_id'];
+
+echo "garden id: " .$index_garden_id;
+
+$file = "config2.txt";
+file_put_contents($file,$index_garden_id);
+
+$Select = mysqli_query($link, "SELECT garden_id FROM garden.users_gardens WHERE user_id = '$user_id'");
+    $index_num_gardens = mysqli_num_rows($Select);
+
+
+
+$resultTable = mysqli_query($link, "SELECT * FROM readings WHERE garden_id = '$index_garden_id'");
+        echo "<table>";
     echo "<tr>";
         echo "<th>ID </th>";
-        echo "<th>Temperature </th>";	
+        echo "<th>Temperature </th>";   
         echo "<th>Light  </th>";
         echo "<th>Humidity </th>";
         echo "<th>Time </th>";
@@ -36,13 +44,9 @@ foreach($gardenList as $garden) {
     echo "</tr>";
 
 }
-
-
-	        
-}
 	    
     echo "</table>";
-    mysqli_free_result($result);
+    mysqli_free_result($resultTable);
 	
 
 ?>

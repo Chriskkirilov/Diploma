@@ -3,14 +3,15 @@ include "php-config.php";
  
 $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = "";
- 
-// Processing form data when form is submitted
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
     // Validate username
-    if(empty(trim($_POST["username"]))){
+    if(empty($_POST["username"])){
+
         $username_err = "Please enter a username.";
     } else{
+
         $sql = "SELECT id FROM users WHERE username = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
@@ -19,8 +20,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_username = trim($_POST["username"]);
             
             if(mysqli_stmt_execute($stmt)){
-                // store result
                 mysqli_stmt_store_result($stmt);
+
+
+
+
                 
                 if(mysqli_stmt_num_rows($stmt) == 1){
                     $username_err = "This username is already taken.";
@@ -34,23 +38,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             mysqli_stmt_close($stmt);
         }
     }
+
+
+
+
+
+
     
     // Validate password
-    if(empty(trim($_POST["password"]))){
+    if(empty($_POST["password"])){
         $password_err = "Please enter a password.";     
     } elseif(strlen(trim($_POST["password"])) < 6){
-        $password_err = "Password must have atleast 6 characters.";
+        $password_err = "Password must have at least 6 characters.";
     } else{
         $password = trim($_POST["password"]);
     }
     
     // Validate confirm password
-    if(empty(trim($_POST["confirm_password"]))){
+    if(empty($_POST["confirm_password"])){
         $confirm_password_err = "Please confirm password.";     
     } else{
         $confirm_password = trim($_POST["confirm_password"]);
         if(empty($password_err) && ($password != $confirm_password)){
-            $confirm_password_err = "Password did not match.";
+            $confirm_password_err = "Passwords did not match.";
         }
     }
     
@@ -58,7 +68,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
-        
+         
         if($stmt = mysqli_prepare($link, $sql)){
             mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
             // Set parameters
@@ -84,13 +94,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <head>
     <meta charset="UTF-8">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="CSS/register.css">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/register.css"/>
 </head>
 <body>
+    <p>Register</p>
     <div class="wrapper">
-        <h2>Register</h2>
-        <p>Create an account</p>
+        
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
                 <label>Username</label>
@@ -108,11 +118,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 <span class="help-block"><?php echo $confirm_password_err; ?></span>
             </div>
             <div class="form-group">
-                <input type="submit" class="button" value="Submit">
-                <input type="reset" class="button-second" value="Reset">
+                <input type="submit" class="button-submit" value="Register">
+                <br>
+                <input type="reset" class="button-reset" value="Reset">
                 <a href="login.php" class="button-login">Login</a>
             </div>
         </form>
+
+        
     </div>    
 </body>
 </html>

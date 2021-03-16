@@ -17,32 +17,66 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false){
 <head>
 	<meta charset="utf-8">
 	<title>Garden</title>
-	<p>Values</p>
+	
 	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" href="CSS/index.css"/>
 
 	<style>
 		<?php
 			include 'CSS/index.css';
 			include 'php-config.php';
+			include'data.php';
 		?>
 	</style>
 
-	<div class="form-group">
-                <a href="logout.php" class="button-login">Logout</a>
-                <a href="reset-password.php" class="button-login">Reset password</a>
-            </div>
+	
 </head>
+
 <body>
 
-	<div class="page-header">
-        <p>Hi, <b>
+<div class="form-group">
+                
+
+                <ul>
+				  
+				  	
+        			<li style="float:right"><a class="button-download" href="config2.txt"><i class="fa fa-download"></i> Download</a></li>
+        			<form method="post" action="add-garden.php"> 
+        				<li>
+        			<input type="submit" name="button1" class="button-add" value="Add garden"/></form></li>
+        		
+        		<li><a href="logout.php" class="button-login">Logout</a></li>
+				  <li><a href="reset-password.php" class="button-login">Reset password</a></li>
+        			<!--
+        			<li> 
+        				<form class="form-group" action="export.php" method="post" name="upload_excel"   
+                      enctype="multipart/form-data">
+                                <input type="submit" name="Export" class="button-add" value="export to excel"/>           
+            </form> 
+  					</li>
+  					-->
+				</ul>
+    </form> 
+
+    <div class="page-header">
+    <p>Hi, <b>
         	<?php
+
         		echo ($_SESSION["username"]);
-        		echo ", id:", ($_SESSION["id"]);
+        		echo "<br>";
+        		echo "User ID: loggedin", ($_SESSION["id"]);	
+        		echo "<br>";
+        		echo "Your current garden ID: " .$index_garden_id;
+        		echo "<br>";
+    			echo "Your gardens in total: " .$index_num_gardens;
         		;	
         	?>
+        	<br>
+        	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     	</p>
+                     
+ </div>
 
 	<div id="show"></div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -54,5 +88,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == false){
 		});
 	</script>
 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+
+	 
 </body>
 </html>
