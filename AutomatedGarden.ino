@@ -1,7 +1,8 @@
 #include <FastLED.h>
-
+#include "garden_config.h"
 const int LED_PIN = 7;
 const int NUM_LEDS = 10;
+
 CRGB leds[NUM_LEDS];
 
 const int tempPin = A0;
@@ -63,7 +64,7 @@ void loop() {
   Serial.print(" ");
   Serial.print(lightInput);
   Serial.print(" ");
-  Serial.print(humidityValue);
+  Serial.println(humidityValue);
   delay(5000);
 
 
